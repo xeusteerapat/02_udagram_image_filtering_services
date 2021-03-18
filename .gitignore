@@ -115,4 +115,10 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
+# build files
 www
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
