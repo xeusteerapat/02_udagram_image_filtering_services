@@ -1,5 +1,6 @@
 import { NextFunction, Response, Request } from 'express';
 import AWS from 'aws-sdk';
+import imagemin from 'imagemin';
 import { ManagedUpload } from 'aws-sdk/clients/s3';
 import dotenv from 'dotenv';
 
@@ -17,27 +18,29 @@ export async function uploadFileToAws(
   res: Response,
   next: NextFunction
 ) {
-  const imagemin = require('imagemin');
+  try {
+    const { buffer } = req.file;
 
-  const { buffer } = req.file;
+    const image = await imagemin.buffer(buffer);
 
-  const image = await imagemin.buffer(buffer);
+    const params = {
+      Bucket: AWS_MEDIA_BUCKET as string,
+      Key: req.file.originalname,
+      Body: image,
+      ContentType: 'image/png',
+      ACL: 'public-read',
+    };
 
-  const params = {
-    Bucket: AWS_MEDIA_BUCKET as string,
-    Key: req.file.originalname,
-    Body: image,
-    ContentType: 'image/png',
-    ACL: 'public-read',
-  };
+    const uploadResult = await new Promise<ManagedUpload.SendData>(
+      (resolve, reject) => {
+        S3.upload(params, (err: Error, data: ManagedUpload.SendData) =>
+          err === null ? resolve(data) : next(reject(err))
+        );
+      }
+    );
 
-  const uploadResult = await new Promise<ManagedUpload.SendData>(
-    (resolve, reject) => {
-      S3.upload(params, (err: Error, data: ManagedUpload.SendData) =>
-        err === null ? resolve(data) : next(reject(err))
-      );
-    }
-  );
-
-  res.send({ uploadUrl: uploadResult.Location });
+    res.send({ uploadUrl: uploadResult.Location });
+  } catch (error) {
+    next(error);
+  }
 }
