@@ -17,6 +17,7 @@
   "devDependencies": {
     "@types/bluebird": "^3.5.33",
     "@types/express": "^4.17.0",
+    "@types/jsonwebtoken": "^8.5.1",
     "@types/multer": "^1.4.5",
     "@types/node": "^11.13.17",
     "@types/sequelize": "^4.28.9",
@@ -27,6 +28,7 @@
     "typescript": "^3.5.3"
   },
   "dependencies": {
+    "argon2": "^0.27.1",
     "aws-sdk": "^2.867.0",
     "dotenv": "^8.2.0",
     "email-validator": "^2.0.4",
