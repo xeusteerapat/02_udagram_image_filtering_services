@@ -1,6 +1,7 @@
 import { generateJWT } from './../middleware/auth';
 import { User } from './../models/User';
 import { Request, Response, NextFunction } from 'express';
+import { v4 as uuid } from 'uuid';
 import * as EmailValidator from 'email-validator';
 import { hashPassword } from '../middleware/auth';
 import dotenv from 'dotenv';
@@ -39,13 +40,24 @@ export const register = async (
 
     const hashedPassword = await hashPassword(password);
 
+    const userId = uuid();
     const user = await User.create({
+      id: userId,
       fullname,
       email,
       password: hashedPassword,
     });
 
-    res.status(201).send(user.short);
+    const payload = {
+      id: user.id,
+      fullname: user.fullname,
+    };
+
+    const userToken = generateJWT(payload, process.env.JWT_SECRET_KEY, {
+      expiresIn: 3600,
+    });
+
+    res.status(201).send({ token: userToken, user: user.short() });
   } catch (error) {
     next(error);
   }
@@ -59,7 +71,7 @@ export const login = async (
   try {
     const { email, password } = req.body;
 
-    if (!email || EmailValidator.validate(email)) {
+    if (!email || !EmailValidator.validate(email)) {
       return res
         .status(400)
         .send({ status: 'Error', message: 'Invalid Email' });

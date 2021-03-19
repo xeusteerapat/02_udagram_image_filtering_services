@@ -5,13 +5,15 @@ import {
   PrimaryKey,
   CreatedAt,
   UpdatedAt,
+  DataType,
 } from 'sequelize-typescript';
 
 @Table
 export class User extends Model {
-  @PrimaryKey
-  @Column
-  public id: number;
+  @Column({
+    type: DataType.UUID,
+  })
+  public id: string;
 
   @PrimaryKey
   @Column
