@@ -18,7 +18,7 @@ export const comparePassword = async (
 };
 
 interface UserPayload {
-  id: number;
+  id: string;
   fullname: string;
 }
 
@@ -56,7 +56,9 @@ export const requireAuth = (
 
     const verifyToken = jwt.verify(bearerToken[1], process.env.JWT_SECRET_KEY);
 
-    return verifyToken;
+    if (verifyToken) {
+      return next();
+    }
   } catch (error) {
     next(error);
   }
