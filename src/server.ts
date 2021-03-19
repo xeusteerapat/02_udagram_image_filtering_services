@@ -1,5 +1,7 @@
-import express from 'express';
 import dotenv from 'dotenv';
+import express from 'express';
+import { sequelize } from './config/sequelize';
+import { User } from './models/User';
 import imageRoute from './routes/image';
 import userRoute from './routes/user';
 
@@ -14,6 +16,10 @@ dotenv.config();
 
   // Use the body parser middleware for post requests
   app.use(express.json());
+
+  // Initial sequelize
+  await sequelize.addModels([User]);
+  await sequelize.sync();
 
   // @TODO1 IMPLEMENT A RESTFUL ENDPOINT
   // GET /filteredimage?image_url={{URL}}
