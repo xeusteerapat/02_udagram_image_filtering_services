@@ -1,8 +1,7 @@
-import express, { Request, Response, NextFunction } from 'express';
+import express from 'express';
 import dotenv from 'dotenv';
-import { filterImageFromURL, deleteLocalFiles } from './util/util';
-import path from 'path';
-import fs from 'fs';
+import imageRoute from './routes/image';
+import userRoute from './routes/user';
 
 dotenv.config();
 
@@ -30,24 +29,8 @@ dotenv.config();
   // RETURNS
   //   the filtered image file [!!TIP res.sendFile(filteredpath); might be useful]
 
-  app.get(
-    '/v0/filteredimage',
-    async (req: Request, res: Response, next: NextFunction) => {
-      try {
-        const image_url = req.query.image_url as string;
-
-        const filteredImage = await filterImageFromURL(image_url);
-
-        res.sendFile(filteredImage);
-
-        setTimeout(() => {
-          deleteLocalFiles([filteredImage]);
-        }, 2000);
-      } catch (error) {
-        next(error);
-      }
-    }
-  );
+  app.use('/v0/image', imageRoute);
+  app.use('/v0/users', userRoute);
   /**************************************************************************** */
 
   //! END @TODO1

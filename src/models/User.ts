@@ -17,6 +17,9 @@ export class User extends Model {
   public password!: string;
 
   @Column
+  public fullname!: string;
+
+  @Column
   @CreatedAt
   public createdAt: Date = new Date();
 
