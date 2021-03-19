@@ -1,3 +1,4 @@
+import { requireAuth } from './../middleware/auth';
 import { processImage } from './../controllers/image';
 import { Router } from 'express';
 import { uploadFileToAws } from '../config/aws';
@@ -5,6 +6,6 @@ import { uploadFileToAws } from '../config/aws';
 const router = Router();
 
 router.post('/upload', uploadFileToAws);
-router.get('/filteredimage', processImage);
+router.get('/filteredimage', requireAuth, processImage);
 
 export default router;
