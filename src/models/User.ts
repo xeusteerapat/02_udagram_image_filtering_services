@@ -11,6 +11,10 @@ import {
 export class User extends Model {
   @PrimaryKey
   @Column
+  public id: number;
+
+  @PrimaryKey
+  @Column
   public email!: string;
 
   @Column
