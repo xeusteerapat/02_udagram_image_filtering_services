@@ -7,7 +7,7 @@ import multer from 'multer';
 const router = Router();
 
 const uploadFile = multer({
-  storage: multer.memoryStorage(),
+  dest: 'src/uploads',
 }).single('file');
 
 router.post('/upload', requireAuth, uploadFile, uploadFileToAws);
