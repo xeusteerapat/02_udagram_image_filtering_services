@@ -4,7 +4,6 @@ import { sequelize } from './config/sequelize';
 import { User } from './models/User';
 import imageRoute from './routes/image';
 import userRoute from './routes/user';
-import testRoute from './routes/test';
 
 dotenv.config();
 
@@ -38,7 +37,6 @@ dotenv.config();
 
   app.use('/v0/image', imageRoute);
   app.use('/v0/users', userRoute);
-  app.use('/v0/test', testRoute);
   /**************************************************************************** */
 
   //! END @TODO1
