@@ -29,7 +29,7 @@ export async function uploadFileToAws(
       Key: `${new Date().getTime()}-${fileName}`,
       Body: fileBuffer,
       ContentType: 'image/png',
-      ACL: 'public-read',
+      ACL: 'public-read-write',
     };
 
     const uploadResult = await new Promise<ManagedUpload.SendData>(
