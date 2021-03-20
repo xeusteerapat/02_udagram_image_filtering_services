@@ -1,18 +1,19 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
-import argon2 from 'argon2';
+import bcrypt from 'bcrypt';
 
 export const hashPassword = async (plainText: string) => {
-  const hashPassword = await argon2.hash(plainText);
+  const salt = await bcrypt.genSalt(12);
+  const hashPassword = await bcrypt.hash(plainText, salt);
 
   return hashPassword;
 };
 
 export const comparePassword = async (
-  hashPassword: string,
-  inputPassword: string
+  inputPassword: string,
+  hashPassword: string
 ) => {
-  const verify = await argon2.verify(hashPassword, inputPassword);
+  const verify = await bcrypt.compare(inputPassword, hashPassword);
 
   return verify;
 };
