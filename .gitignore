@@ -124,3 +124,6 @@ www
 !.elasticbeanstalk/*.global.yml
 
 .DS_Store
+
+# multer upload images
+uploads
