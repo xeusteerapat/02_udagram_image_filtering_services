@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { uploadFileToAws } from '../config/aws';
-import { processImage } from './../controllers/image';
+import { processImage, withoutAWS } from './../controllers/image';
 import { requireAuth } from './../middleware/auth';
 import multer from 'multer';
 
@@ -9,9 +9,9 @@ const router = Router();
 const uploadFile = multer({
   storage: multer.memoryStorage(),
 }).single('file');
-console.log('Yes, multer upload file middleware', uploadFile);
 
 router.post('/upload', requireAuth, uploadFile, uploadFileToAws);
+router.post('/test-upload-route', requireAuth, uploadFile, withoutAWS);
 router.get('/filteredimage', requireAuth, processImage);
 
 export default router;
