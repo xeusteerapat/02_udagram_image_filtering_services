@@ -20,8 +20,10 @@ export async function uploadFileToAws(
 ) {
   try {
     const { buffer } = req.file;
+    console.log('Log buffer from file', buffer);
 
     const image = await imagemin.buffer(buffer);
+    console.log('Log imagemin', image);
 
     const params = {
       Bucket: AWS_MEDIA_BUCKET as string,
@@ -38,6 +40,7 @@ export async function uploadFileToAws(
         );
       }
     );
+    console.log('Log upload result', uploadResult);
 
     res.send({ uploadUrl: uploadResult.Location });
   } catch (error) {
