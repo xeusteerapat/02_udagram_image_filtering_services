@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { deleteLocalFiles, filterImageFromURL } from '../util/util';
+import path from 'path';
 
 export const processImage = async (
   req: Request,
@@ -27,9 +28,9 @@ export const withoutAWS = async (
   next: NextFunction
 ) => {
   try {
-    const fileName = req.file.originalname;
+    // const fileName = req.file.originalname;
 
-    res.send({ fileName });
+    res.send({ status: 'I AM NOT STUCK WITH MIDDLEWARE' });
   } catch (error) {
     next(error);
   }
