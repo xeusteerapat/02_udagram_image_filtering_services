@@ -20,3 +20,17 @@ export const processImage = async (
     next(error);
   }
 };
+
+export const withoutAWS = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const fileName = req.file.originalname;
+
+    res.send({ fileName });
+  } catch (error) {
+    next(error);
+  }
+};
