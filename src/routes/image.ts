@@ -9,6 +9,7 @@ const router = Router();
 const uploadFile = multer({
   storage: multer.memoryStorage(),
 }).single('file');
+console.log('Yes, multer upload file middleware', uploadFile);
 
 router.post('/upload', requireAuth, uploadFile, uploadFileToAws);
 router.get('/filteredimage', requireAuth, processImage);
