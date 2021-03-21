@@ -11,7 +11,7 @@ const uploadFile = multer({
 }).single('file');
 
 router.post('/upload', requireAuth, uploadFile, uploadFileToAws);
-router.post('/test-upload-route', requireAuth, uploadFile, withoutAWS);
+router.post('/test-upload-route', requireAuth, withoutAWS);
 router.get('/filteredimage', requireAuth, processImage);
 
 export default router;
