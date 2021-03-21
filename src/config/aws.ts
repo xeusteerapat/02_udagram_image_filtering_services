@@ -41,6 +41,7 @@ export async function uploadFileToAws(
 
     res.send({ uploadUrl: uploadResult.Location });
   } catch (error) {
+    console.log('IMAGE UPLOAD ERROR', error);
     next(error);
   }
 }
