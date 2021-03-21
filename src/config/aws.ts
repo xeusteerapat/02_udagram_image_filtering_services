@@ -1,8 +1,8 @@
 import { NextFunction, Response, Request } from 'express';
 import AWS from 'aws-sdk';
 import { ManagedUpload } from 'aws-sdk/clients/s3';
+import imagemin from 'imagemin';
 import dotenv from 'dotenv';
-import { readFileSync } from 'fs';
 
 dotenv.config();
 
@@ -19,17 +19,16 @@ export async function uploadFileToAws(
   next: NextFunction
 ) {
   try {
-    const fileName = req.file.originalname;
-    const pathToFile =
-      __dirname.replace('/config', '') + '/uploads/' + req.file.filename;
-    const fileBuffer = readFileSync(pathToFile);
+    const { buffer } = req.file;
+
+    const image = await imagemin.buffer(buffer);
 
     const params = {
       Bucket: AWS_MEDIA_BUCKET as string,
-      Key: `${new Date().getTime()}-${fileName}`,
-      Body: fileBuffer,
+      Key: `${new Date().getTime()}-${req.file.originalname}`,
+      Body: image,
       ContentType: 'image/png',
-      ACL: 'public-read-write',
+      ACL: 'public-read',
     };
 
     const uploadResult = await new Promise<ManagedUpload.SendData>(
