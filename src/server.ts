@@ -7,7 +7,7 @@ import userRoute from './routes/user';
 
 dotenv.config();
 
-(async () => {
+const main = async () => {
   // Init the Express application
   const app = express();
 
@@ -55,4 +55,6 @@ dotenv.config();
     console.log(`Server running http://localhost:${port} 🚀`);
     console.log(`Press CTRL+C to stop server`);
   });
-})();
+};
+
+main().catch(err => console.error(err));
