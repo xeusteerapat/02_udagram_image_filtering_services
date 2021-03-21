@@ -1,5 +1,6 @@
 import dotenv from 'dotenv';
 import express from 'express';
+import cors from 'cors';
 import { sequelize } from './config/sequelize';
 import { User } from './models/User';
 import imageRoute from './routes/image';
@@ -13,6 +14,8 @@ const main = async () => {
 
   // Set the network port
   const port = process.env.PORT || 8082;
+
+  app.use(cors());
 
   // Use the body parser middleware for post requests
   app.use(express.json());
